@@ -17,7 +17,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo-details">
-                <div class="logo_name">Marketplace</div>
+                <div class="logo_name">Rental</div>
                 <i class='bx bx-menu' id="btn" ></i>
             </div>
             <ul class="nav-list">
