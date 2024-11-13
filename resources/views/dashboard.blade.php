@@ -11,10 +11,10 @@
 
             @if ($user->role === 'admin')
                 <p class="card-text">Kelola mobil dan tambahkan mobil baru untuk di sewakan!!!</p>
-                <a href="" class="btn btn-info">Kelola Mobil</a>
+                <a href="{{ route('cars.index') }}" class="btn btn-info">Kelola Mobil</a>
             @else
                 <p class="card-text">Segera pilih mobil yang ingin anda sewa!!!</p>
-                <a href="" class="btn btn-secondary">Rental Mobil</a>
+                <a href="{{ route('cars.index') }}" class="btn btn-secondary">Rental Mobil</a>
             @endif
         </div>
     </div>

@@ -39,19 +39,19 @@
 
                             {{-- Logika Tombol --}}
                             @if ($car->is_available)
-                                {{-- Jika mobil tersedia dan tidak pernah disewa --}}
-                                @if ($car->rentals->isEmpty())
+                                {{-- Cek apakah pengguna sudah pernah menyewa mobil ini --}}
+                                @php
+                                    $userRental = $car->rentals->where('user_id', auth()->id())->last();
+                                @endphp
+
+                                @if (!$userRental)
+                                    {{-- Belum pernah menyewa, tampilkan tombol "Sewa" --}}
                                     <p class="text-success">Status: Tersedia</p>
                                     <a href="{{ route('rentals.create', $car->id) }}" class="btn btn-success btn-sm">Sewa</a>
                                 @else
-                                    @if ($car->rentals->isNotEmpty())
-                                        {{-- Ambil rental terakhir --}}
-                                        @php
-                                            $latestRental = $car->rentals->last();
-                                        @endphp
-                                        <p class="text-warning">Status: Selesai sewa</p>
-                                        <a href="{{ route('rentals.edit', $latestRental->id) }}" class="btn btn-warning btn-sm">Perbarui Status</a>
-                                    @endif
+                                    {{-- Jika mobil sudah dikembalikan (return_date ada), tampilkan tombol "Perbarui Status" --}}
+                                    <p class="text-warning">Status: Selesai sewa</p>
+                                    <a href="{{ route('rentals.edit', $userRental->id) }}" class="btn btn-warning btn-sm">Perbarui Status</a>
                                 @endif
                             @else
                                 {{-- Jika mobil sedang disewa --}}

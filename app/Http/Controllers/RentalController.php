@@ -11,9 +11,20 @@ class RentalController extends Controller
     // Menampilkan daftar sewa
     public function index()
     {
-        $rentals = Rental::with('user', 'car')->get();
+        // Mengecek peran pengguna yang sedang login
+        if (auth()->user()->role === 'admin') {
+            // Jika admin, tampilkan semua data rental
+            $rentals = Rental::with('user', 'car')->get();
+        } else {
+            // Jika customer, tampilkan hanya data rental milik customer yang sedang login
+            $rentals = Rental::with('user', 'car')
+                            ->where('user_id', auth()->id()) // Menambahkan filter berdasarkan user yang sedang login
+                            ->get();
+        }
+
         return view('rentals.index', compact('rentals'));
     }
+
 
     // Menampilkan formulir untuk menambahkan sewa baru
     public function create($car_id)
