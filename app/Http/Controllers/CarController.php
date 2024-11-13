@@ -12,15 +12,6 @@ class CarController extends Controller
     {
         $query = Car::query();
 
-        // Filter berdasarkan pencarian brand atau model
-        if ($request->has('search') && $request->search) {
-            $searchTerm = $request->search;
-            $query->where(function ($q) use ($searchTerm) {
-                $q->where('brand', 'like', "%$searchTerm%")
-                ->orWhere('model', 'like', "%$searchTerm%");
-            });
-        }
-
         // Filter berdasarkan ketersediaan
         if ($request->has('is_available') && $request->is_available !== '') {
             $query->where('is_available', $request->is_available);
@@ -35,8 +26,6 @@ class CarController extends Controller
     public function create(){
         return view('cars.create');
     }
-
-    
 
     // Menyimpan mobil baru ke dalam database
     public function store(Request $request)
