@@ -9,29 +9,32 @@ class CarController extends Controller
 {
     // Menampilkan daftar mobil
     public function index(Request $request)
-{
-    $query = Car::query();
+    {
+        $query = Car::query();
 
-    // Filter berdasarkan pencarian brand atau model
-    if ($request->has('search') && $request->search) {
-        $searchTerm = $request->search;
-        $query->where(function ($q) use ($searchTerm) {
-            $q->where('brand', 'like', "%$searchTerm%")
-              ->orWhere('model', 'like', "%$searchTerm%");
-        });
+        // Filter berdasarkan pencarian brand atau model
+        if ($request->has('search') && $request->search) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('brand', 'like', "%$searchTerm%")
+                ->orWhere('model', 'like', "%$searchTerm%");
+            });
+        }
+
+        // Filter berdasarkan ketersediaan
+        if ($request->has('is_available') && $request->is_available !== '') {
+            $query->where('is_available', $request->is_available);
+        }
+
+        // Ambil data mobil beserta rental terkait
+        $cars = $query->with('rentals')->get();
+
+        return view('cars.index', compact('cars'));
     }
 
-    // Filter berdasarkan ketersediaan
-    if ($request->has('is_available') && $request->is_available !== '') {
-        $query->where('is_available', $request->is_available);
+    public function create(){
+        return view('cars.create');
     }
-
-    // Ambil data mobil yang sudah difilter
-    $cars = $query->get();
-
-    return view('cars.index', compact('cars'));
-}
-
 
     
 

@@ -23,7 +23,10 @@
             </div>
         </form>
 
-        <a href="{{ route('cars.create') }}" class="btn btn-primary mb-3">Tambah Mobil</a>
+        <!-- Tombol Tambah Mobil hanya untuk admin -->
+        @if (auth()->user() && auth()->user()->role === 'admin')
+            <a href="{{ route('cars.create') }}" class="btn btn-primary mb-3">Tambah Mobil</a>
+        @endif
 
         <div class="row">
             @foreach ($cars as $car)
@@ -39,14 +42,28 @@
                             <p class="card-text">No Plat: {{ $car->license_plate }}</p>
                             <p class="card-text">Harga: Rp {{ number_format($car->rental_price_per_day, 0, ',', '.') }}</p>
 
-                            {{-- Tampilkan status ketersediaan --}}
+                            {{-- Logika Tombol --}}
                             @if ($car->is_available)
-                                <p class="text-success">Status: Tersedia</p>
+                                {{-- Jika mobil tersedia dan tidak pernah disewa --}}
+                                @if ($car->rentals->isEmpty())
+                                    <p class="text-success">Status: Tersedia</p>
+                                    <a href="{{ route('rentals.create', $car->id) }}" class="btn btn-success btn-sm">Sewa</a>
+                                @else
+                                    @if ($car->rentals->isNotEmpty())
+                                    {{-- Ambil rental terakhir --}}
+                                    @php
+                                        $latestRental = $car->rentals->last();
+                                    @endphp
+                                    <p class="text-warning">Status: Selesai sewa</p>
+                                    <a href="{{ route('rentals.edit', $latestRental->id) }}" class="btn btn-warning btn-sm">Perbarui Status</a>
+                                    @endif
+                            
+                                @endif
                             @else
+                                {{-- Jika mobil sedang disewa --}}
                                 <p class="text-danger">Status: Sedang Disewa</p>
                             @endif
 
-                            <a href="{{ route('rentals.create', $car->id) }}" class="btn btn-success btn-sm">Sewa</a>
                             <a href="{{ route('cars.show', $car->id) }}" class="btn btn-info btn-sm">Detail</a>
                         </div>
                     </div>

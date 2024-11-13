@@ -42,13 +42,6 @@
                     </a>
                     <span class="tooltip">Rental</span>
                 </li>
-                <li>
-                    <a href="">
-                        <i class='bx bx-user'></i>
-                        <span class="links_name">Profil</span>
-                    </a>
-                    <span class="tooltip">Profil</span>
-                </li>                               
                 @if (auth()->check())
                 <li class="profile">
                     <div class="profile-details">

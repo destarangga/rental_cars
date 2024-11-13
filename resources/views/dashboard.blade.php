@@ -10,11 +10,11 @@
             <p class="card-text">Role: {{ $user->role }}</p>
 
             @if ($user->role === 'admin')
-                <p class="card-text">Anda memiliki akses sebagai merchant. Anda dapat mengelola menu, order dan melihat invoice</p>
-                <a href="" class="btn btn-info">Siapkan Menu</a>
+                <p class="card-text">Kelola mobil dan tambahkan mobil baru untuk di sewakan!!!</p>
+                <a href="" class="btn btn-info">Kelola Mobil</a>
             @else
-                <p class="card-text">Anda adalah Customer. Silahkan untuk memesan minuman atau makanan yang di cari</p>
-                <a href="" class="btn btn-secondary">Buat Orderan</a>
+                <p class="card-text">Segera pilih mobil yang ingin anda sewa!!!</p>
+                <a href="" class="btn btn-secondary">Rental Mobil</a>
             @endif
         </div>
     </div>
