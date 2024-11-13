@@ -30,7 +30,7 @@
                 </li>
                 <li>
                     <a href="{{ route('cars.index') }}">
-                        <i class='bx bx-box'></i>
+                        <i class='bx bx-car'></i>
                         <span class="links_name">Cars</span>
                     </a>
                     <span class="tooltip">cars</span>
